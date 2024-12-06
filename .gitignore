@@ -1,0 +1,22 @@
+# Node.js
+/node_modules
+/build
+
+# Laravel
+/vendor
+/public/storage
+/storage/*.key
+.env
+.env.*
+
+# Docker
+*.log
+**/.idea
+**/.vscode
+.DS_Store
+docker-compose.override.yml
+
+# IDEs e Ferramentas
+.idea/
+.vscode/
+*.swp
