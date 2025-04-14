@@ -1,4 +1,13 @@
 {
+<<<<<<< HEAD
+  "devDependencies": {
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.5"
+=======
   "name": "front-end",
   "version": "0.1.0",
   "private": true,
@@ -42,5 +51,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+>>>>>>> a216ca1438015af6076436637d012c7800d2b1a2
   }
 }
