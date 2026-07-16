@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Paciente;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,25 +17,31 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+        $paciente = Paciente::firstOrCreate(
+            ['email' => $validated['email']],
+            ['name'  => $validated['name']]
+        );
+
         $usuario = Usuario::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => bcrypt($validated['password']),
-            'role'     => 'paciente',
+            'name'        => $validated['name'],
+            'email'       => $validated['email'],
+            'password'    => bcrypt($validated['password']),
+            'role'        => 'paciente',
+            'paciente_id' => $paciente->id,
         ]);
 
         $token = $usuario->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'token' => $token,
-            'user'  => $usuario->only('id', 'name', 'email', 'role'),
+            'user'  => $usuario->only('id', 'name', 'email', 'role', 'paciente_id'),
         ], 201);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
@@ -48,12 +55,7 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $token,
-            'user' => [
-                'id' => $usuario->id,
-                'name' => $usuario->name,
-                'email' => $usuario->email,
-                'role' => $usuario->role,
-            ],
+            'user'  => $usuario->only('id', 'name', 'email', 'role', 'paciente_id'),
         ]);
     }
 
@@ -66,6 +68,6 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return response()->json($request->user()->only('id', 'name', 'email', 'role'));
+        return response()->json($request->user()->only('id', 'name', 'email', 'role', 'paciente_id'));
     }
 }

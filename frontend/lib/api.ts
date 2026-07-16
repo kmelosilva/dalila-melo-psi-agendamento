@@ -36,4 +36,16 @@ export const api = {
   logout: () => request('/logout', { method: 'POST' }),
 
   me: () => request('/me'),
+
+  servicos: () => request('/servicos'),
+
+  horarios: () => request('/horarios'),
+
+  agendamentos: {
+    list: () => request('/agendamentos'),
+    create: (body: { service_id?: number; appointment_date: string; notes?: string }) =>
+      request('/agendamentos', { method: 'POST', body: JSON.stringify(body) }),
+    cancel: (id: number) =>
+      request(`/agendamentos/${id}`, { method: 'DELETE' }),
+  },
 };
